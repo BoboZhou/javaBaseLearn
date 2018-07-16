@@ -63,7 +63,7 @@ class FullPerMutation {
 public class StringArithmetic {
     public static void main(String[] args) {
         FullPerMutation full = new FullPerMutation();
-        char[] arr = "abc".toCharArray();
+        char[] arr = "abcdefg".toCharArray();
 //        full.peiMutation(arr, 0);
 //        full.combine(arr);
         full.combine(arr,0,2,new Stack<>());
