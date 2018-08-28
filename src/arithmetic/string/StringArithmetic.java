@@ -66,6 +66,6 @@ public class StringArithmetic {
         char[] arr = "abcdefg".toCharArray();
 //        full.peiMutation(arr, 0);
 //        full.combine(arr);
-        full.combine(arr,0,2,new Stack<>());
+        full.combine(arr,0,3,new Stack<>());
     }
 }
