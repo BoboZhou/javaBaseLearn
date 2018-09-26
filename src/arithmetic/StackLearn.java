@@ -1,7 +1,10 @@
 package arithmetic;
 
+import javax.management.Query;
 import javax.swing.*;
 import java.util.*;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class StackLearn {
     /**
@@ -50,6 +53,40 @@ public class StackLearn {
         System.out.println(myStack.pop());
         myStack.push(4);
         System.out.println(myStack.pop());
+        Queue<Integer> integers = new LinkedBlockingDeque<>();
+        System.out.println(integers.poll());
+        /***        myqstackUseQUery*/
+
+        MystackUseQuery mystackUseQuery = new MystackUseQuery();
+        for (int i = 1; i <= 5; i++) {
+            mystackUseQuery.push(i);
+
+        }
+        System.out.println(mystackUseQuery.pop());
+        mystackUseQuery.push(8);
+        mystackUseQuery.push(9);
+
+        System.out.println(mystackUseQuery.pop());
+        System.out.println(mystackUseQuery.pop());
+
+
+        /** MyQUeueUseStack*/
+
+        MyQUeueUseStack myQUeueUseStack = new MyQUeueUseStack();
+        for (int i = 1; i <= 4; i++) {
+            myQUeueUseStack.add(i);
+
+        }
+        System.out.println("============");
+        System.out.println(myQUeueUseStack.poll());
+        myQUeueUseStack.add(7);
+        myQUeueUseStack.add(8);
+        System.out.println(myQUeueUseStack.poll());
+        System.out.println(myQUeueUseStack.poll());
+        System.out.println(myQUeueUseStack.poll());
+        System.out.println(myQUeueUseStack.poll());
+        System.out.println(myQUeueUseStack.poll());
+
     }
 
     /**
@@ -182,6 +219,64 @@ public class StackLearn {
             return min;
         }
     }
+    static class MyQUeueUseStack{
+        Stack<Integer> myStack = new Stack<Integer>();
+
+        public void add(Integer a) {
+            link(myStack, a);
+        }
+
+        public void link(Stack<Integer> stack,Integer a) {
+            Integer peek = null;
+            try {
+                peek = stack.peek();
+            } catch (Exception e) {
+                stack.push(a);
+                return;
+            }
+
+            Integer pop = stack.pop();
+            link(stack, a);
+            stack.add(pop);
+
+
+        }
+
+        public Integer poll() {
+            return myStack.pop();
+        }
+
+    }
+    /**
+     * 用query实现栈
+     */
+    static class MystackUseQuery {
+        Queue<Integer> queue = new LinkedBlockingQueue();
+
+        public void push(Integer a) {
+            queue.add(a);
+            link(queue, a);
+
+        }
+
+        public void link(Queue<Integer> queue, Integer a) {
+            Integer peek = queue.peek();
+            if (peek == a)
+                return;
+            Integer poll = queue.poll();
+            queue.add(poll);
+
+            link(queue, a);
+
+
+        }
+
+        public Integer pop() {
+            return queue.poll();
+        }
+
+    }
+
 
     /**
      * 最小元素栈
@@ -219,24 +314,36 @@ public class StackLearn {
     static class MyQueue {
         Stack<Integer> input = new Stack<Integer>();
         Stack<Integer> output = new Stack<Integer>();
-        /** Push element x to the back of queue. */
+
+        /**
+         * Push element x to the back of queue.
+         */
         public void push(int x) {
             input.push(x);
         }
-        /** Removes the element from in front of queue and returns that element. */
+
+        /**
+         * Removes the element from in front of queue and returns that element.
+         */
         public int pop() {
             peek();
             return output.pop();
         }
-        /** Get the front element. */
+
+        /**
+         * Get the front element.
+         */
         public int peek() {
-            if(output.isEmpty()){
-                while(!input.isEmpty())
+            if (output.isEmpty()) {
+                while (!input.isEmpty())
                     output.push(input.pop());
             }
             return output.peek();
         }
-        /** Returns whether the queue is empty. */
+
+        /**
+         * Returns whether the queue is empty.
+         */
         public boolean empty() {
             return input.isEmpty() && output.isEmpty();
         }
@@ -247,38 +354,44 @@ public class StackLearn {
         Queue<Integer> q1 = new LinkedList<Integer>();
         Queue<Integer> q2 = new LinkedList<Integer>();
 
-        /** Push element x onto stack. */
+        /**
+         * Push element x onto stack.
+         */
         public void push(int x) {
-            if(q1.isEmpty()){
+            if (q1.isEmpty()) {
                 q1.add(x);
-                for(int i = 0; i < q2.size(); i++){
+                for (int i = 0; i < q2.size(); i++) {
                     q1.add(q2.poll());
                 }
-            }else{
+            } else {
                 q2.add(x);
-                for(int i = 0; i < q1.size(); i++){
+                for (int i = 0; i < q1.size(); i++) {
                     q2.add(q1.poll());
                 }
             }
         }
 
-        /** Removes the element on top of the stack and returns that element. */
+        /**
+         * Removes the element on top of the stack and returns that element.
+         */
         public int pop() {
             return q1.isEmpty() ? q2.poll() : q1.poll();
         }
 
-        /** Get the top element. */
+        /**
+         * Get the top element.
+         */
         public int top() {
             return q1.isEmpty() ? q2.peek() : q1.peek();
         }
 
-        /** Returns whether the stack is empty. */
+        /**
+         * Returns whether the stack is empty.
+         */
         public boolean empty() {
             return q1.isEmpty() && q2.isEmpty();
         }
     }
-
-
 
 
 }
