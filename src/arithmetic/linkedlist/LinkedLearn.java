@@ -1,35 +1,74 @@
 package arithmetic.linkedlist;
 
-import java.util.Objects;
-
 /**
  * 链表算法学习类
  */
 public class LinkedLearn {
     public static void main(String[] args) {
-        Node node1 = new Node(1, null);
+        Node nodeOne = new Node(1);
+        for (int i = 1; i < 10; i++) {
 
-        Node node2 = new Node(2, null);
+            nodeOne.add(new Node(i));
 
-        Node node3 = new Node(3, null);
+        }
+        nodeOne.add(new Node(39));
+        System.out.println(nodeOne);
 
-        Node node4 = new Node(4, null);
+        Node nodeTwo = new Node(1);
+        for (int i = 1; i < 50; i = i * 2) {
+            nodeTwo.add(new Node(i));
 
-        Node node5 = new Node(5, null);
+        }
+        System.out.println(nodeTwo);
 
-        Node node6 = new Node(6, null);
-
-        Node node7 = new Node(7, null);
-        node1.next = node2;
-        node2.next = node3;
-        node3.next = node4;
-        node4.next = node5;
-
-
+        Node x = mergerTowSortLink(nodeOne.first, nodeTwo.first);
+        System.out.println(x);
 
     }
 
-    static void mergerTowSortLink() {
+    /**
+     * @return
+     * @Description : 合并两个有序链表
+     * @Param :
+     * @Author bobo
+     * @date: 2018/9/28
+     */
+    static Node mergerTowSortLink(Node n1, Node n2) {
+        Node n = new Node();
+
+        Node current = n1.val >= n2.val ? n2 : n1;
+        n.next = current;
+        Node n1Next = n1.next;
+        Node n2Next = n2.next;
+        while (n2Next != null || n1Next != null) {
+            /** 其中一个为null 走到了末尾*/
+            if (n1Next == null) {
+                current.next = n2Next;
+                current = n2Next;
+                n2Next = n2Next.next;
+            } else if (n2Next == null) {
+                current.next = n1Next;
+                current = n1Next;
+                n1Next = n1Next.next;
+            }
+            //俩个都不为null
+            else if (n1Next.val == n2Next.val) {
+                n2Next = n2Next.next;
+            } else if (n1Next.val < n2Next.val) {
+
+                current.next = n1Next;
+                current = n1Next;
+                n1Next = n1Next.next;
+            }
+            else {
+                current.next = n2Next;
+                current = n2Next;
+                n2Next = n2Next.next;
+            }
+
+        }
+        return n;
+
 
     }
 
@@ -55,6 +94,9 @@ public class LinkedLearn {
             this.next = next;
         }
 
+        public Node() {
+        }
+
         public Node(Integer val) {
             this.val = val;
         }
@@ -65,6 +107,36 @@ public class LinkedLearn {
                 tail = node;
             }
         }
+
+        public synchronized void add(Node node) {
+            if (first == null) {
+                first = node;
+                tail = node;
+                return;
+            }
+            first.tail = node;
+            tail.next = node;
+            tail = node;
+
+
+        }
+
+        @Override
+        public String toString() {
+            Node c = first;
+            if (null ==  c)
+                first = next;
+            StringBuilder stringBuffer = new StringBuilder();
+            while (c!= null && c.next != null) {
+                stringBuffer.append(c.val).append(" ->");
+                c = c.next;
+            }
+            if (c != null) {
+                stringBuffer.append(c.val);
+            }
+            return stringBuffer.toString();
+        }
+
     }
 
 

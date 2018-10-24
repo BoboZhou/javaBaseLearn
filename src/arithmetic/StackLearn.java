@@ -200,7 +200,7 @@ public class StackLearn {
 
 
         public void push(Integer item) {
-            if (item < min) {
+            if (item <= min) {
                 date.push(min);
                 min = item;
             }
