@@ -4,7 +4,7 @@ package arithmetic.linkedlist;
  * 链表算法学习类
  */
 public class LinkedLearn {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         Node nodeOne = new Node(1);
         for (int i = 1; i < 10; i++) {
 
@@ -19,10 +19,45 @@ public class LinkedLearn {
             nodeTwo.add(new Node(i));
 
         }
+        String name = "**明朝那些**";
         System.out.println(nodeTwo);
-
-        Node x = mergerTowSortLink(nodeOne.first, nodeTwo.first);
+        LinkedLearn linkedLearn = new LinkedLearn();
+        Node x = linkedLearn.mergerTowSortLink(nodeOne.first, nodeTwo.first);
         System.out.println(x);
+        System.out.println("*********************");
+        Node nodeThe = new Node(1);
+
+        for (int i = 0; i < 10; i++) {
+            if (i == 5) {
+                for (int i1 = 0; i1 < 3; i1++) {
+                    nodeThe.add(new Node(5));
+                }
+            }else {
+                nodeThe.add(new Node(i));
+
+            }
+
+        }
+
+        ListNode head = new ListNode(0);
+        ListNode current = head;
+
+        for (int i = 0; i < 10; i++) {
+            if (i == 5) {
+                for (int i1 = 0; i1 < 3; i1++) {
+                    current = current.add(new ListNode(5));
+
+                }
+            }else {
+                current = current.add(new ListNode(i));
+
+
+            }
+
+
+        }
+        System.out.println(head);
+        System.out.println(removeAllRepetionNode(head));
 
     }
 
@@ -33,7 +68,7 @@ public class LinkedLearn {
      * @Author bobo
      * @date: 2018/9/28
      */
-    static Node mergerTowSortLink(Node n1, Node n2) {
+     Node mergerTowSortLink(Node n1, Node n2) {
         Node n = new Node();
 
         Node current = n1.val >= n2.val ? n2 : n1;
@@ -59,8 +94,7 @@ public class LinkedLearn {
                 current.next = n1Next;
                 current = n1Next;
                 n1Next = n1Next.next;
-            }
-            else {
+            } else {
                 current.next = n2Next;
                 current = n2Next;
                 n2Next = n2Next.next;
@@ -72,8 +106,69 @@ public class LinkedLearn {
 
     }
 
-    static void removeNode(Integer val) {
+    /**
+     * @return
+     * @Description : 删除链表所有重复元素
+     * @Param :
+     * @Author bobo
+     * @date: 2018/10/25
+     */
+    public static   ListNode removeAllRepetionNode(ListNode head) {
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        head = dummy;
+        while (head.next != null && head.next.next != null) {
+            if (head.next.val == head.next.next.val) {
+                Integer duplicate = head.next.val;
+                while (head.next != null && head.next.val == duplicate)
+                    head.next = head.next.next;
+            } else {
+                head = head.next;
+            }
+        }
+        return dummy.next;
+//        if (head == null || head.next == null) return head;
+//        Node dummy = new Node(0);
+//        dummy.next = head;
+//        head = dummy;
+//        while (head.next != null && head.next.next != null) {
+//            if (head.next.val == head.next.next.val) {
+//                int duplicate = head.next.val;
+//                while (head.next != null && head.next.val == duplicate) {
+//                    head.next = head.next.next;
+//                }
+//            } else {
+//                head = head.next;
+//            }
+//        }
+//        return dummy.next;
 
+
+
+
+
+    }
+     /**
+       * @return
+       * @Description : 翻转 链表
+       * @Param :
+       * @Author bobo
+       * @date: 2018/10/25
+       */
+
+     Node remverNode(Node  head) {
+        Node pre = null;
+        Node cur = head;
+        Node newHead = null;
+        while (cur.next != null) {
+            Node next = cur.next;
+            cur.next = pre;
+            pre = cur;
+            if (next == null) newHead = cur;
+            cur = next;
+        }
+
+        return newHead;
     }
 
     static class Node {
@@ -121,13 +216,12 @@ public class LinkedLearn {
 
         }
 
-        @Override
-        public String toString() {
+        public synchronized   String toString2() {
             Node c = first;
-            if (null ==  c)
+            if (null == c)
                 first = next;
-            StringBuilder stringBuffer = new StringBuilder();
-            while (c!= null && c.next != null) {
+            StringBuffer stringBuffer = new StringBuffer();
+            while (c != null && c.next != null) {
                 stringBuffer.append(c.val).append(" ->");
                 c = c.next;
             }
@@ -138,6 +232,33 @@ public class LinkedLearn {
         }
 
     }
+
+    public static class ListNode {
+        /**
+         * 当前值
+         */
+        int val;
+
+        /**
+         * 下一个节点
+         */
+        ListNode next;
+
+        ListNode(int val) {
+            this.val = val;
+        }
+        public ListNode add (ListNode node){
+            next = node;
+            return node;
+        }
+
+        @Override
+        public String toString() {
+            return val + " -> "
+                     + next ;
+        }
+    }
+
 
 
 }
